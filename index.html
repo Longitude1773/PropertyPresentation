@@ -494,7 +494,7 @@ function updateUI(){
   if(_REV_C) hp.set('rc',_REV_C); if(_REV_B) hp.set('rb',_REV_B); if(_REV_O) hp.set('ro',_REV_O);
   hp.set('ac',(_APP_C*100).toFixed(0)); hp.set('ab',(_APP_B*100).toFixed(0)); hp.set('ao',(_APP_O*100).toFixed(0));
   hp.set('gc',(_GRW_C*100).toFixed(0)); hp.set('gb',(_GRW_B*100).toFixed(0)); hp.set('go',(_GRW_O*100).toFixed(0));
-  document.getElementById('horizonFrame').src='https://horizonscenarioplanner.pages.dev/?'+hp.toString();
+  document.getElementById('horizonFrame').src='https://horizonscenarioplanner.erik-ce1.workers.dev/?'+hp.toString();
 }
 
 function toggleBox(el){ el.classList.toggle('open'); }
