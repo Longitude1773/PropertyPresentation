@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Property Presentation | Longitude</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root {
   --pine:     #132221;
@@ -142,6 +143,193 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
   .cfg-full { grid-column: 1; }
   .footer-inner { flex-direction: column; }
   .specs-inner { gap: 24px; }
+}
+
+/* ══════════════════════════════════════════
+   HORIZON TOOL — embedded native sections
+   All rules scoped under .hz to avoid
+   conflicts with presentation styles above.
+══════════════════════════════════════════ */
+.hz { padding-bottom: 80px; }
+.hz .ht-section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+.hz .ht-section:last-child { border-bottom: none; }
+
+.hz .ht-eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+}
+.hz .ht-title {
+  font-family: "Cormorant Garamond", serif; font-size: 24px; font-weight: 500;
+  color: var(--pine); margin-bottom: 28px; line-height: 1.2;
+}
+
+/* Inputs */
+.hz .inputs-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px 24px;
+}
+.hz .input-group { display: flex; flex-direction: column; gap: 6px; }
+.hz .input-label {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(19,34,33,0.48);
+}
+.hz .input-wrapper { position: relative; display: flex; align-items: center; }
+.hz .input-affix {
+  position: absolute; font-size: 13px; font-weight: 300;
+  color: rgba(19,34,33,0.38); pointer-events: none; user-select: none;
+}
+.hz .input-affix.prefix { left: 11px; }
+.hz .input-affix.suffix { right: 11px; }
+.hz input[type="text"], .hz input[type="number"], .hz select {
+  width: 100%; padding: 10px 12px;
+  font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 400;
+  color: var(--charcoal); background: white; border: 1px solid var(--border);
+  border-radius: 3px; outline: none; transition: border-color 0.18s;
+  -moz-appearance: textfield;
+}
+.hz input[type="number"]::-webkit-outer-spin-button,
+.hz input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+.hz input[type="text"]:focus, .hz input[type="number"]:focus, .hz select:focus { border-color: var(--pine); }
+.hz input.has-prefix { padding-left: 26px; }
+.hz input.has-suffix { padding-right: 30px; }
+.hz select {
+  appearance: none; cursor: pointer; padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23132221' opacity='.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+/* Down payment toggle */
+.hz .dp-toggle { display: flex; margin-bottom: 4px; }
+.hz .dp-toggle button {
+  flex: 1; padding: 5px 10px; font-family: "Montserrat", sans-serif;
+  font-size: 10px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--border); background: transparent; color: rgba(19,34,33,0.42);
+  cursor: pointer; transition: all 0.18s;
+}
+.hz .dp-toggle button:first-child { border-radius: 2px 0 0 2px; }
+.hz .dp-toggle button:last-child  { border-radius: 0 2px 2px 0; border-left: none; }
+.hz .dp-toggle button.active { background: var(--pine); border-color: var(--pine); color: var(--offwhite); }
+.hz .dp-hint { font-size: 11px; color: rgba(19,34,33,0.4); margin-top: 4px; }
+
+/* Monthly payment bar */
+.hz .monthly-payment-bar {
+  margin-top: 24px; padding: 18px 24px; background: var(--pine); border-radius: 3px;
+  display: flex; align-items: center; gap: 20px;
+}
+.hz .mp-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(251,248,232,0.5); white-space: nowrap; }
+.hz .mp-value { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 30px; color: var(--offwhite); line-height: 1; white-space: nowrap; }
+.hz .mp-breakdown { font-size: 11px; color: rgba(251,248,232,0.42); border-left: 1px solid rgba(251,248,232,0.15); padding-left: 20px; line-height: 1.6; }
+
+/* Scenario cards */
+.hz .scenario-group { margin-bottom: 32px; }
+.hz .scenario-group-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(19,34,33,0.48); margin-bottom: 8px; }
+.hz .scenario-group-desc { font-size: 12px; color: rgba(19,34,33,0.5); line-height: 1.6; margin-bottom: 10px; max-width: 680px; }
+.hz .scenario-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.hz .scenario-card {
+  border: 1px solid var(--border); border-radius: 3px; padding: 16px 20px 14px;
+  cursor: pointer; transition: all 0.2s; background: white; user-select: none;
+}
+.hz .scenario-card:hover:not(.selected) { border-color: rgba(19,34,33,0.4); background: rgba(19,34,33,0.02); }
+.hz .scenario-card.selected { background: var(--pine); border-color: var(--pine); }
+.hz .sc-tier { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(19,34,33,0.42); margin-bottom: 6px; }
+.hz .scenario-card.selected .sc-tier { color: var(--gold); }
+.hz .sc-value { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 22px; color: var(--charcoal); line-height: 1.1; }
+.hz .scenario-card.selected .sc-value { color: var(--offwhite); }
+.hz .sc-sub { font-size: 11px; color: rgba(19,34,33,0.4); margin-top: 4px; }
+.hz .scenario-card.selected .sc-sub { color: rgba(251,248,232,0.55); }
+
+/* Tax summary bar */
+.hz .tax-summary-bar {
+  display: flex; align-items: stretch; border: 1px solid var(--border);
+  border-radius: 3px; overflow: hidden; margin-top: 20px;
+}
+.hz .tsb-item { flex: 1; padding: 16px 20px; background: white; }
+.hz .tsb-divider { width: 1px; background: var(--border); flex-shrink: 0; }
+.hz .tsb-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(19,34,33,0.4); margin-bottom: 8px; }
+.hz .tsb-value { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 24px; color: var(--charcoal); line-height: 1; }
+.hz .tsb-value.positive { color: var(--pine); }
+.hz .tsb-select {
+  font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 24px; color: var(--charcoal);
+  border: none; border-bottom: 1px solid var(--border); background: transparent; outline: none;
+  cursor: pointer; padding: 0 24px 2px 0; border-radius: 0; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23132221' opacity='.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 4px center;
+}
+.hz .tax-schedule-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(19,34,33,0.42); margin: 24px 0 10px; }
+.hz .tax-years-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+.hz .tax-tracker { margin-top: 12px; font-size: 12px; color: rgba(19,34,33,0.45); padding: 10px 14px; background: rgba(19,34,33,0.04); border-radius: 3px; line-height: 1.5; }
+.hz .tax-tracker.over { color: #8b3a20; background: rgba(139,58,32,0.07); }
+.hz .tax-tracker.done { color: var(--pine); background: rgba(19,34,33,0.07); }
+
+/* Results */
+.hz .results-section { padding: 40px 0 0; }
+.hz .metrics-bar {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 28px;
+}
+.hz .metric-item { padding: 20px 16px 16px; border-right: 1px solid var(--border); background: white; }
+.hz .metric-item:last-child { border-right: none; }
+.hz .metric-label { font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(19,34,33,0.42); margin-bottom: 10px; line-height: 1.4; }
+.hz .metric-value { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 24px; line-height: 1; color: var(--charcoal); }
+.hz .metric-value.lg { font-size: 30px; }
+.hz .metric-value.positive { color: var(--pine); }
+.hz .metric-value.negative { color: #8b3a20; }
+@keyframes popIn { from { opacity:0.2; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+.hz .pop { animation: popIn 0.3s ease forwards; }
+
+/* Callout */
+.hz .callout {
+  border-left: 3px solid var(--accent); background: var(--cream);
+  padding: 18px 26px; margin-bottom: 36px; border-radius: 0 3px 3px 0;
+}
+.hz .callout p {
+  font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 400;
+  font-size: 18px; color: var(--charcoal); line-height: 1.65;
+}
+
+/* Chart */
+.hz .chart-wrap { position: relative; height: 280px; margin-bottom: 10px; }
+.hz .chart-legend { display: flex; gap: 24px; margin-bottom: 32px; padding-left: 2px; }
+.hz .chart-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(19,34,33,0.55); }
+.hz .chart-legend-line { width: 20px; height: 2px; border-radius: 1px; }
+
+/* Table */
+.hz .table-wrap { overflow-x: auto; }
+.hz table.proj { width: 100%; border-collapse: collapse; min-width: 660px; }
+.hz table.proj thead th {
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(19,34,33,0.42); padding: 10px 14px; text-align: right;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.hz table.proj thead th:first-child { text-align: left; }
+.hz table.proj tbody tr:nth-child(odd)  { background: white; }
+.hz table.proj tbody tr:nth-child(even) { background: var(--cream); }
+.hz table.proj tbody tr.year5 { background: rgba(19,34,33,0.06); }
+.hz table.proj tbody td {
+  padding: 12px 14px; font-size: 12px; text-align: right; color: var(--charcoal); white-space: nowrap;
+}
+.hz table.proj tbody td:first-child {
+  text-align: left; font-family: "Cormorant Garamond", serif;
+  font-weight: 500; font-size: 15px; color: var(--pine);
+}
+.hz .td-pos { color: var(--pine) !important; }
+.hz .td-neg { color: #8b3a20 !important; }
+
+/* Horizon responsive */
+@media (max-width: 768px) {
+  .hz .inputs-grid { grid-template-columns: repeat(2,1fr); }
+  .hz .scenario-cards { grid-template-columns: 1fr; }
+  .hz .tax-years-grid { grid-template-columns: repeat(3,1fr); }
+  .hz .tax-summary-bar { flex-direction: column; }
+  .hz .tsb-divider { width: auto; height: 1px; }
+  .hz .metrics-bar { grid-template-columns: repeat(2,1fr); }
+  .hz .metric-item:nth-child(5) { border-right: none; grid-column: 1/-1; }
+  .hz .metric-item:nth-child(2), .hz .metric-item:nth-child(4) { border-right: none; }
+}
+@media (max-width: 540px) {
+  .hz .inputs-grid { grid-template-columns: 1fr; }
+  .hz .tax-years-grid { grid-template-columns: 1fr 1fr; }
+  .hz .metrics-bar { grid-template-columns: 1fr; }
+  .hz .metric-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .hz .metric-item:last-child { border-bottom: none; }
 }
 </style>
 </head>
@@ -404,13 +592,357 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
     </div>
   </section>
 
-  <!-- HORIZON TOOL -->
+  <!-- HORIZON TOOL — native sections -->
   <section class="horizon-section">
     <div class="horizon-inner">
       <div class="section-eyebrow">Interactive Modeling</div>
       <div class="section-title">Model Your Financing Scenario</div>
       <p class="horizon-subtitle">Adjust down payment, interest rate, loan term, and expense assumptions. Revenue and appreciation projections for this property are pre-loaded — just explore the numbers.</p>
-      <iframe id="horizonFrame" class="horizon-frame" src="about:blank" title="Horizon Scenario Tool"></iframe>
+
+      <!-- embedded tool wrapper -->
+      <div class="hz">
+
+        <!-- Section 01 — Financing -->
+        <div class="ht-section">
+          <div class="ht-eyebrow">Section 01</div>
+          <div class="ht-title">Financing</div>
+          <div class="inputs-grid">
+
+            <div class="input-group">
+              <div class="input-label">Purchase Price</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="purchasePrice" class="has-prefix" value="0">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Down Payment</div>
+              <div class="dp-toggle">
+                <button id="dpDollarBtn" class="active" onclick="toggleDP('dollar')">$ Amount</button>
+                <button id="dpPctBtn" onclick="toggleDP('pct')">% of Price</button>
+              </div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix" id="dpPrefix">$</span>
+                <input type="text" id="downPayment" class="has-prefix" value="0">
+                <span class="input-affix suffix" id="dpSuffix" style="display:none">%</span>
+              </div>
+              <div class="dp-hint" id="dpHint">20.0% of purchase price</div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Interest Rate</div>
+              <div class="input-wrapper">
+                <input type="number" id="interestRate" class="has-suffix" value="7.0" step="0.05" min="0" max="25">
+                <span class="input-affix suffix">%</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Loan Term</div>
+              <div class="input-wrapper">
+                <select id="loanTerm">
+                  <option value="30">30 Years</option>
+                  <option value="20">20 Years</option>
+                  <option value="15">15 Years</option>
+                  <option value="io">Interest Only</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="monthly-payment-bar">
+            <div class="mp-label">Est. Monthly Payment</div>
+            <div class="mp-value" id="monthlyPayment">—</div>
+            <div class="mp-breakdown" id="monthlyBreakdown">&nbsp;</div>
+          </div>
+        </div>
+
+        <!-- Section 02 — Operating Costs -->
+        <div class="ht-section">
+          <div class="ht-eyebrow">Section 02</div>
+          <div class="ht-title">Annual Operating Costs</div>
+          <div class="inputs-grid">
+
+            <div class="input-group">
+              <div class="input-label">Property Management Fee</div>
+              <div class="input-wrapper">
+                <input type="number" id="mgmtFee" class="has-suffix" value="30" step="0.5" min="0" max="60">
+                <span class="input-affix suffix">%</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Annual Maintenance</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="maintenance" class="has-prefix" value="12,000">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">CapEx Savings (Annual)</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="capex" class="has-prefix" value="8,000">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">HOA / Other Fees</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="hoa" class="has-prefix" value="0">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Property Tax (Annual)</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="propertyTax" class="has-prefix" value="60,000">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-label">Insurance (Annual)</div>
+              <div class="input-wrapper">
+                <span class="input-affix prefix">$</span>
+                <input type="text" id="insurance" class="has-prefix" value="8,000">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 03 — Scenario Selection -->
+        <div class="ht-section">
+          <div class="ht-eyebrow">Section 03</div>
+          <div class="ht-title">Scenario Selection</div>
+
+          <!-- Revenue Tier -->
+          <div class="scenario-group">
+            <div class="scenario-group-label">Revenue Tier — Longitude STR Projection</div>
+            <div class="scenario-cards">
+              <div class="scenario-card" data-group="revenueTier" data-value="conservative" onclick="selectScenario('revenueTier','conservative',this)">
+                <div class="sc-tier">Conservative</div>
+                <div class="sc-value" id="revConservativeHz">—</div>
+                <div class="sc-sub">Annual STR Revenue</div>
+              </div>
+              <div class="scenario-card selected" data-group="revenueTier" data-value="balanced" onclick="selectScenario('revenueTier','balanced',this)">
+                <div class="sc-tier">Balanced</div>
+                <div class="sc-value" id="revBalancedHz">—</div>
+                <div class="sc-sub">Annual STR Revenue</div>
+              </div>
+              <div class="scenario-card" data-group="revenueTier" data-value="optimized" onclick="selectScenario('revenueTier','optimized',this)">
+                <div class="sc-tier">Optimized</div>
+                <div class="sc-value" id="revOptimizedHz">—</div>
+                <div class="sc-sub">Annual STR Revenue</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Revenue Growth Rate -->
+          <div class="scenario-group">
+            <div class="scenario-group-label">Annual STR Revenue Growth Rate</div>
+            <div class="scenario-cards">
+              <div class="scenario-card" data-group="growthRate" data-value="conservative" onclick="selectScenario('growthRate','conservative',this)">
+                <div class="sc-tier">Conservative</div>
+                <div class="sc-value" id="grwConservativeHz">3%</div>
+                <div class="sc-sub">Annual Growth</div>
+              </div>
+              <div class="scenario-card selected" data-group="growthRate" data-value="balanced" onclick="selectScenario('growthRate','balanced',this)">
+                <div class="sc-tier">Balanced</div>
+                <div class="sc-value" id="grwBalancedHz">5%</div>
+                <div class="sc-sub">Annual Growth</div>
+              </div>
+              <div class="scenario-card" data-group="growthRate" data-value="optimized" onclick="selectScenario('growthRate','optimized',this)">
+                <div class="sc-tier">Optimized</div>
+                <div class="sc-value" id="grwOptimizedHz">10%</div>
+                <div class="sc-sub">Annual Growth</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appreciation Rate -->
+          <div class="scenario-group">
+            <div class="scenario-group-label">Property Appreciation Rate</div>
+            <div class="scenario-cards">
+              <div class="scenario-card" data-group="appreciation" data-value="conservative" onclick="selectScenario('appreciation','conservative',this)">
+                <div class="sc-tier">Conservative</div>
+                <div class="sc-value" id="appRateConsHz">3%</div>
+                <div class="sc-sub">Annual Appreciation</div>
+              </div>
+              <div class="scenario-card selected" data-group="appreciation" data-value="balanced" onclick="selectScenario('appreciation','balanced',this)">
+                <div class="sc-tier">Balanced</div>
+                <div class="sc-value" id="appRateBalHz">6%</div>
+                <div class="sc-sub">Annual Appreciation</div>
+              </div>
+              <div class="scenario-card" data-group="appreciation" data-value="optimized" onclick="selectScenario('appreciation','optimized',this)">
+                <div class="sc-tier">Optimized</div>
+                <div class="sc-value" id="appRateOptHz">9%</div>
+                <div class="sc-sub">Annual Appreciation</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cost Segregation & Tax -->
+          <div class="scenario-group">
+            <div class="scenario-group-label">Cost Segregation Study</div>
+            <div class="scenario-group-desc">A cost segregation study reclassifies components of the property into shorter depreciable lives, generating accelerated deductions in the early years of ownership. Select the percentage of the purchase price eligible for reclassification.</div>
+            <div class="scenario-cards">
+              <div class="scenario-card" data-group="costSegTier" data-value="conservative" onclick="selectScenario('costSegTier','conservative',this)">
+                <div class="sc-tier">Conservative</div>
+                <div class="sc-value">20%</div>
+                <div class="sc-sub" id="csSubConservative">of purchase price</div>
+              </div>
+              <div class="scenario-card selected" data-group="costSegTier" data-value="balanced" onclick="selectScenario('costSegTier','balanced',this)">
+                <div class="sc-tier">Balanced</div>
+                <div class="sc-value">27%</div>
+                <div class="sc-sub" id="csSubBalanced">of purchase price</div>
+              </div>
+              <div class="scenario-card" data-group="costSegTier" data-value="optimized" onclick="selectScenario('costSegTier','optimized',this)">
+                <div class="sc-tier">Optimized</div>
+                <div class="sc-value">35%</div>
+                <div class="sc-sub" id="csSubOptimized">of purchase price</div>
+              </div>
+            </div>
+
+            <div class="tax-summary-bar">
+              <div class="tsb-item">
+                <div class="tsb-label">Total Potential Deduction</div>
+                <div class="tsb-value" id="totalDeduction">—</div>
+              </div>
+              <div class="tsb-divider"></div>
+              <div class="tsb-item">
+                <div class="tsb-label">Your Tax Bracket</div>
+                <select id="taxBracket" class="tsb-select" onchange="recalc()">
+                  <option value="0.22">22%</option>
+                  <option value="0.24">24%</option>
+                  <option value="0.32">32%</option>
+                  <option value="0.35" selected>35%</option>
+                  <option value="0.37">37%</option>
+                </select>
+              </div>
+              <div class="tsb-divider"></div>
+              <div class="tsb-item">
+                <div class="tsb-label">Total Potential Tax Savings</div>
+                <div class="tsb-value positive" id="totalSavings">—</div>
+              </div>
+            </div>
+
+            <div class="tax-schedule-label">Schedule Your Deductions by Year</div>
+            <div class="tax-years-grid">
+              <div class="input-group">
+                <div class="input-label">Year 1</div>
+                <div class="input-wrapper">
+                  <span class="input-affix prefix">$</span>
+                  <input type="text" id="taxY1" class="has-prefix" value="0" oninput="recalc()">
+                </div>
+              </div>
+              <div class="input-group">
+                <div class="input-label">Year 2</div>
+                <div class="input-wrapper">
+                  <span class="input-affix prefix">$</span>
+                  <input type="text" id="taxY2" class="has-prefix" value="0" oninput="recalc()">
+                </div>
+              </div>
+              <div class="input-group">
+                <div class="input-label">Year 3</div>
+                <div class="input-wrapper">
+                  <span class="input-affix prefix">$</span>
+                  <input type="text" id="taxY3" class="has-prefix" value="0" oninput="recalc()">
+                </div>
+              </div>
+              <div class="input-group">
+                <div class="input-label">Year 4</div>
+                <div class="input-wrapper">
+                  <span class="input-affix prefix">$</span>
+                  <input type="text" id="taxY4" class="has-prefix" value="0" oninput="recalc()">
+                </div>
+              </div>
+              <div class="input-group">
+                <div class="input-label">Year 5</div>
+                <div class="input-wrapper">
+                  <span class="input-affix prefix">$</span>
+                  <input type="text" id="taxY5" class="has-prefix" value="0" oninput="recalc()">
+                </div>
+              </div>
+            </div>
+            <div class="tax-tracker" id="taxTracker">Enter deduction amounts above — total allocated cannot exceed the potential deduction.</div>
+          </div>
+        </div><!-- /ht-section 03 -->
+
+        <!-- Results -->
+        <div class="results-section">
+          <div class="ht-eyebrow">Projection Results</div>
+          <div class="ht-title">5-Year Investment Analysis</div>
+
+          <div class="metrics-bar">
+            <div class="metric-item">
+              <div class="metric-label">Total Cash Invested</div>
+              <div class="metric-value" id="mCashIn">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Annual Cost of Ownership</div>
+              <div class="metric-value" id="mCostOwn">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Year 1 Gross Revenue</div>
+              <div class="metric-value" id="mRevenue">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Year 1 Cash-on-Cash</div>
+              <div class="metric-value" id="mCoC">—</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Year 1 Adjusted Return</div>
+              <div class="metric-value lg" id="mAdj">—</div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <p id="calloutText">Select your scenario assumptions above to generate your 5-year projection.</p>
+          </div>
+
+          <div class="chart-wrap">
+            <canvas id="projChart"></canvas>
+          </div>
+          <div class="chart-legend">
+            <div class="chart-legend-item">
+              <div class="chart-legend-line" style="background:#132221"></div>
+              Annual Net Cash Flow %
+            </div>
+            <div class="chart-legend-item">
+              <div class="chart-legend-line" style="background:#b44025"></div>
+              Cumulative Cash-on-Cash
+            </div>
+            <div class="chart-legend-item">
+              <div class="chart-legend-line" style="background:#abbfb6"></div>
+              Cumulative Adjusted Return
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="proj">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Gross Revenue</th>
+                  <th>Total Costs</th>
+                  <th>Net Cash Flow</th>
+                  <th>CoC Return</th>
+                  <th>Appreciation</th>
+                  <th>Tax Benefit</th>
+                  <th>Adj. Return</th>
+                </tr>
+              </thead>
+              <tbody id="projBody"></tbody>
+            </table>
+          </div>
+        </div><!-- /results -->
+
+      </div><!-- /.hz -->
     </div>
   </section>
 
@@ -457,12 +989,283 @@ let _GRW_C=0.03, _GRW_B=0.05, _GRW_O=0.10;
   if(p.has('go'))    _GRW_O = parseFloat(p.get('go'))   /100||0.10;
 })();
 
-function fmtDollar(n){
-  const neg=n<0; return (neg?'-$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US');
+// ── PROP / STATE (for Horizon engine) ──
+const PROP = {
+  get purchasePrice() { return _PRICE; },
+  get revenue()       { return { conservative: _REV_C, balanced: _REV_B, optimized: _REV_O }; },
+  get appreciation()  { return { conservative: _APP_C, balanced: _APP_B, optimized: _APP_O }; },
+  get growthRate()    { return { conservative: _GRW_C, balanced: _GRW_B, optimized: _GRW_O }; }
+};
+
+const COST_SEG = { conservative: 0.20, balanced: 0.27, optimized: 0.35 };
+
+const S = {
+  revenueTier:  'balanced',
+  growthRate:   'balanced',
+  appreciation: 'balanced',
+  costSegTier:  'balanced',
+  dpMode:       'dollar'
+};
+
+let hzChart = null;
+
+// ── UTILITIES ──
+function parseNum(v){ return parseFloat(String(v).replace(/[^0-9.\-]/g,''))||0; }
+function fmtDollar(n){ const neg=n<0; return (neg?'-$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US'); }
+function fmtDollarCompact(n){ if(Math.abs(n)>=1e6) return '$'+(n/1e6).toFixed(2)+'M'; if(Math.abs(n)>=1e4) return '$'+Math.round(n/1000)+'K'; return fmtDollar(n); }
+function fmtPct(n,d=1){ return (n>=0?'':'−')+(Math.abs(n)*100).toFixed(d)+'%'; }
+function commas(n){ return Math.round(n).toLocaleString('en-US'); }
+function fmtCompact(n){ if(Math.abs(n)>=1e6) return '$'+(n/1e6).toFixed(2)+'M'; return fmtDollar(n); }
+
+// ── DOWN PAYMENT ──
+function toggleDP(mode){
+  if(mode===S.dpMode) return;
+  const inp=document.getElementById('downPayment');
+  const pfx=document.getElementById('dpPrefix'), sfx=document.getElementById('dpSuffix');
+  const btnDlr=document.getElementById('dpDollarBtn'), btnPct=document.getElementById('dpPctBtn');
+  const pp=parseNum(inp.value.replace ? inp.value : '0')||PROP.purchasePrice;
+  const cur=parseNum(inp.value);
+  if(mode==='pct'){
+    inp.value=pp>0?(cur/pp*100).toFixed(1):'20.0';
+    pfx.style.display='none'; sfx.style.display='block';
+    btnDlr.classList.remove('active'); btnPct.classList.add('active');
+  } else {
+    inp.value=commas(pp*(cur/100));
+    pfx.style.display='block'; sfx.style.display='none';
+    btnDlr.classList.add('active'); btnPct.classList.remove('active');
+  }
+  S.dpMode=mode; updateDPHint(); recalc();
 }
-function fmtCompact(n){
-  if(Math.abs(n)>=1e6) return '$'+(n/1e6).toFixed(2)+'M';
-  return fmtDollar(n);
+function updateDPHint(){
+  const inp=document.getElementById('downPayment');
+  const hint=document.getElementById('dpHint');
+  const pp=parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
+  const val=parseNum(inp.value);
+  if(S.dpMode==='dollar'){
+    hint.textContent=pp>0?(val/pp*100).toFixed(1)+'% of purchase price':'0.0% of purchase price';
+  } else {
+    hint.textContent='$'+commas(pp*val/100);
+  }
+}
+function getDPDollar(){
+  const val=parseNum(document.getElementById('downPayment').value);
+  const pp=parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
+  return S.dpMode==='pct'? pp*val/100 : val;
+}
+
+// ── SCENARIO SELECTION ──
+function selectScenario(group,value,el){
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  S[group]=value;
+  recalc();
+}
+
+// ── MORTGAGE ──
+function annualMortgage(principal,annualRate,term){
+  if(term==='io') return principal*annualRate;
+  const n=parseInt(term)*12, r=annualRate/12;
+  if(r===0) return principal/n*12;
+  const mo=principal*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  return mo*12;
+}
+
+// ── CORE CALCULATION ──
+function calculate(){
+  const pp          = parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
+  const dp          = getDPDollar();
+  const rate        = parseFloat(document.getElementById('interestRate').value)/100||0.07;
+  const term        = document.getElementById('loanTerm').value;
+  const mgmtPct     = parseFloat(document.getElementById('mgmtFee').value)/100||0.30;
+  const maintenance = parseNum(document.getElementById('maintenance').value);
+  const capex       = parseNum(document.getElementById('capex').value);
+  const hoa         = parseNum(document.getElementById('hoa').value);
+  const propTax     = parseNum(document.getElementById('propertyTax').value);
+  const insurance   = parseNum(document.getElementById('insurance').value);
+  const closingCosts= pp*0.025;
+  const totalCashIn = dp+closingCosts;
+  const loanAmt     = pp-dp;
+  const annMortgage = annualMortgage(loanAmt,rate,term);
+  const baseRevenue = PROP.revenue[S.revenueTier];
+  const growthRate  = PROP.growthRate[S.growthRate];
+  const appRate     = PROP.appreciation[S.appreciation];
+  const bracket     = parseFloat(document.getElementById('taxBracket').value)||0.35;
+  const yearDeds    = [1,2,3,4,5].map(i=>parseNum(document.getElementById('taxY'+i).value));
+  let cumCashFlow=0, cumAdjBen=0;
+  const years=[];
+  for(let n=1;n<=5;n++){
+    const grossRev  = baseRevenue*Math.pow(1+growthRate,n-1);
+    const mgmtCost  = grossRev*mgmtPct;
+    const totalCosts= annMortgage+maintenance+capex+hoa+propTax+insurance+mgmtCost;
+    const netCF     = grossRev-totalCosts;
+    const appGain   = pp*Math.pow(1+appRate,n)-pp*Math.pow(1+appRate,n-1);
+    const taxBen    = yearDeds[n-1]*bracket;
+    const adjBen    = netCF+appGain+taxBen;
+    cumCashFlow+=netCF; cumAdjBen+=adjBen;
+    const coc   =totalCashIn>0?netCF/totalCashIn:0;
+    const adjRet=totalCashIn>0?adjBen/totalCashIn:0;
+    const cumCoC=totalCashIn>0?cumCashFlow/totalCashIn:0;
+    const cumAdj=totalCashIn>0?cumAdjBen/totalCashIn:0;
+    years.push({n,grossRev,totalCosts,netCF,coc,appGain,taxBen,adjBen,adjRet,cumCoC,cumAdj});
+  }
+  const y1=years[0];
+  return {totalCashIn,annCostOwn:y1.totalCosts,y1GrossRev:y1.grossRev,
+    y1CoC:y1.coc,y1AdjRet:y1.adjRet,y3AdjRet:years[2].adjRet,
+    y5AdjRet:years[4].adjRet,avgAdj5:years.reduce((s,y)=>s+y.adjRet,0)/5,years};
+}
+
+// ── RENDER HELPERS ──
+function pop(id,text,extraClass=''){
+  const el=document.getElementById(id); if(!el) return;
+  el.textContent=text;
+  el.className='metric-value'+(id==='mAdj'?' lg':'')+(extraClass?' '+extraClass:'');
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+}
+function updateMetrics(r){
+  pop('mCashIn', fmtDollarCompact(r.totalCashIn));
+  pop('mCostOwn',fmtDollarCompact(r.annCostOwn));
+  pop('mRevenue',fmtDollarCompact(r.y1GrossRev));
+  pop('mCoC',    fmtPct(r.y1CoC),  r.y1CoC >=0?'positive':'negative');
+  pop('mAdj',    fmtPct(r.y1AdjRet),r.y1AdjRet>=0?'positive':'negative');
+}
+function updateCallout(r){
+  const tier=S.revenueTier.charAt(0).toUpperCase()+S.revenueTier.slice(1);
+  let txt;
+  if(r.y1CoC<0){
+    txt=`Year 1 rarely tells the full story. In this ${tier} scenario, your adjusted return reaches ${fmtPct(r.y3AdjRet)} by Year 3 when appreciation and tax advantages are included — and ${fmtPct(r.y5AdjRet)} by Year 5.`;
+  } else {
+    txt=`This property pencils in Year 1. In the ${tier} scenario, your adjusted 5-year return averages ${fmtPct(r.avgAdj5)} annually — well above typical equity market benchmarks.`;
+  }
+  document.getElementById('calloutText').textContent=txt;
+}
+function updateChart(r){
+  const labels=['Year 1','Year 2','Year 3','Year 4','Year 5'];
+  const dCoC   =r.years.map(y=>+(y.coc   *100).toFixed(2));
+  const dCumCC =r.years.map(y=>+(y.cumCoC*100).toFixed(2));
+  const dCumAdj=r.years.map(y=>+(y.cumAdj*100).toFixed(2));
+  if(hzChart){
+    hzChart.data.datasets[0].data=dCoC;
+    hzChart.data.datasets[1].data=dCumCC;
+    hzChart.data.datasets[2].data=dCumAdj;
+    hzChart.update('active'); return;
+  }
+  const ctx=document.getElementById('projChart').getContext('2d');
+  hzChart=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Annual Net Cash Flow %',data:dCoC,borderColor:'#132221',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#132221',pointRadius:4,pointHoverRadius:6,tension:0.4},
+      {label:'Cumulative Cash-on-Cash',data:dCumCC,borderColor:'#b44025',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#b44025',pointRadius:4,pointHoverRadius:6,tension:0.4},
+      {label:'Cumulative Adjusted Return',data:dCumAdj,borderColor:'#abbfb6',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#abbfb6',pointRadius:4,pointHoverRadius:6,tension:0.4}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#132221',padding:12,cornerRadius:2,
+          titleFont:{family:'Montserrat',size:11},bodyFont:{family:'Montserrat',size:12},
+          callbacks:{label:ctx=>'  '+ctx.dataset.label+':  '+ctx.parsed.y.toFixed(1)+'%'}}
+      },
+      scales:{
+        x:{grid:{display:false},border:{color:'rgba(19,34,33,0.18)'},ticks:{font:{family:'Montserrat',size:10},color:'rgba(19,34,33,0.4)'}},
+        y:{grid:{display:false},border:{display:false},ticks:{font:{family:'Montserrat',size:10},color:'rgba(19,34,33,0.4)',callback:v=>v+'%'}}
+      }
+    }
+  });
+}
+function updateTable(r){
+  const tbody=document.getElementById('projBody'); tbody.innerHTML='';
+  r.years.forEach(y=>{
+    const tr=document.createElement('tr');
+    if(y.n===5) tr.classList.add('year5');
+    const nc=y.netCF>=0?'td-pos':'td-neg', cc=y.coc>=0?'td-pos':'td-neg', ac=y.adjRet>=0?'td-pos':'td-neg';
+    tr.innerHTML=`<td>Year ${y.n}</td><td>${fmtDollar(y.grossRev)}</td><td>${fmtDollar(y.totalCosts)}</td><td class="${nc}">${fmtDollar(y.netCF)}</td><td class="${cc}">${fmtPct(y.coc)}</td><td>${fmtDollar(y.appGain)}</td><td>${y.taxBen>0?fmtDollar(y.taxBen):'—'}</td><td class="${ac}">${fmtPct(y.adjRet)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── TAX / MONTHLY ──
+function updateTaxSummary(){
+  const pp=parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
+  const pct=COST_SEG[S.costSegTier];
+  const totalDed=pp*pct;
+  const bracket=parseFloat(document.getElementById('taxBracket').value)||0.35;
+  const totalSav=totalDed*bracket;
+  document.getElementById('totalDeduction').textContent=fmtDollar(totalDed);
+  document.getElementById('totalSavings').textContent=fmtDollar(totalSav);
+  document.getElementById('csSubConservative').textContent=fmtDollar(pp*0.20);
+  document.getElementById('csSubBalanced').textContent=fmtDollar(pp*0.27);
+  document.getElementById('csSubOptimized').textContent=fmtDollar(pp*0.35);
+  const allocated=[1,2,3,4,5].reduce((s,i)=>s+parseNum(document.getElementById('taxY'+i).value),0);
+  const remaining=totalDed-allocated;
+  const tracker=document.getElementById('taxTracker');
+  if(allocated===0){tracker.textContent='Enter deduction amounts above — total allocated cannot exceed '+fmtDollar(totalDed)+'.';tracker.className='tax-tracker';}
+  else if(allocated>totalDed){tracker.textContent='Over-allocated by '+fmtDollar(allocated-totalDed)+' — reduce year inputs.';tracker.className='tax-tracker over';}
+  else if(remaining===0){tracker.textContent='Fully allocated — '+fmtDollar(allocated)+' of '+fmtDollar(totalDed)+' scheduled.';tracker.className='tax-tracker done';}
+  else{tracker.textContent=fmtDollar(allocated)+' allocated · '+fmtDollar(remaining)+' remaining of '+fmtDollar(totalDed)+'.';tracker.className='tax-tracker';}
+}
+function updateMonthlyPayment(){
+  const pp=parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
+  const dp=getDPDollar();
+  const rate=parseFloat(document.getElementById('interestRate').value)/100||0.07;
+  const term=document.getElementById('loanTerm').value;
+  const loan=pp-dp;
+  let monthly;
+  if(term==='io'){ monthly=loan*rate/12; }
+  else{ const n=parseInt(term)*12,r=rate/12; monthly=r===0?loan/n:loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1); }
+  document.getElementById('monthlyPayment').textContent=fmtDollar(monthly);
+  const termLabel=term==='io'?'Interest Only':term+'-yr fixed';
+  const pctDown=pp>0?(dp/pp*100).toFixed(0):0;
+  document.getElementById('monthlyBreakdown').textContent=fmtDollar(loan)+' loan · '+pctDown+'% down · '+(rate*100).toFixed(2)+'% · '+termLabel;
+}
+
+function recalc(){
+  updateTaxSummary();
+  updateMonthlyPayment();
+  const r=calculate();
+  updateMetrics(r);
+  updateCallout(r);
+  updateChart(r);
+  updateTable(r);
+}
+
+function fmtCurrencyInput(id){
+  const el=document.getElementById(id); if(!el) return;
+  const val=parseNum(el.value);
+  if(!isNaN(val)) el.value=commas(val);
+}
+function bindCurrencyInput(id,extraCb){
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener('blur',()=>{fmtCurrencyInput(id);recalc();if(extraCb)extraCb();});
+  el.addEventListener('input',()=>{recalc();if(extraCb)extraCb();});
+}
+
+function initHorizonTool(){
+  // Populate scenario cards from URL params
+  document.getElementById('purchasePrice').value=commas(_PRICE);
+  document.getElementById('downPayment').value=commas(_PRICE*0.20);
+  document.getElementById('revConservativeHz').textContent='$'+commas(_REV_C);
+  document.getElementById('revBalancedHz').textContent='$'+commas(_REV_B);
+  document.getElementById('revOptimizedHz').textContent='$'+commas(_REV_O);
+  document.getElementById('grwConservativeHz').textContent=(_GRW_C*100).toFixed(0)+'%';
+  document.getElementById('grwBalancedHz').textContent=(_GRW_B*100).toFixed(0)+'%';
+  document.getElementById('grwOptimizedHz').textContent=(_GRW_O*100).toFixed(0)+'%';
+  document.getElementById('appRateConsHz').textContent=(_APP_C*100).toFixed(0)+'%';
+  document.getElementById('appRateBalHz').textContent=(_APP_B*100).toFixed(0)+'%';
+  document.getElementById('appRateOptHz').textContent=(_APP_O*100).toFixed(0)+'%';
+  // Bind inputs
+  bindCurrencyInput('purchasePrice',updateDPHint);
+  bindCurrencyInput('downPayment',updateDPHint);
+  bindCurrencyInput('maintenance');
+  bindCurrencyInput('capex');
+  bindCurrencyInput('hoa');
+  bindCurrencyInput('propertyTax');
+  bindCurrencyInput('insurance');
+  document.getElementById('interestRate').addEventListener('input',recalc);
+  document.getElementById('mgmtFee').addEventListener('input',recalc);
+  document.getElementById('loanTerm').addEventListener('change',recalc);
+  updateDPHint();
+  recalc();
 }
 
 function updateUI(){
@@ -488,13 +1291,7 @@ function updateUI(){
     document.getElementById('apprProjC').textContent='Year 5 Projection: '+fmtCompact(_PRICE*Math.pow(1+_APP_C,5));
   }
 
-  const hp = new URLSearchParams();
-  if(_ADDR1) hp.set('addr1',_ADDR1); if(_ADDR2) hp.set('addr2',_ADDR2);
-  if(_PRICE) hp.set('price',_PRICE);
-  if(_REV_C) hp.set('rc',_REV_C); if(_REV_B) hp.set('rb',_REV_B); if(_REV_O) hp.set('ro',_REV_O);
-  hp.set('ac',(_APP_C*100).toFixed(0)); hp.set('ab',(_APP_B*100).toFixed(0)); hp.set('ao',(_APP_O*100).toFixed(0));
-  hp.set('gc',(_GRW_C*100).toFixed(0)); hp.set('gb',(_GRW_B*100).toFixed(0)); hp.set('go',(_GRW_O*100).toFixed(0));
-  document.getElementById('horizonFrame').src='https://horizonscenarioplanner.erik-ce1.workers.dev/?'+hp.toString();
+  initHorizonTool();
 }
 
 function toggleBox(el){ el.classList.toggle('open'); }
