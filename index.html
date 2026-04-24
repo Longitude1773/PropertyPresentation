@@ -1461,8 +1461,9 @@ let _GRW_C=${gc}, _GRW_B=${gb}, _GRW_O=${go};`;
     out = out.replace(/let _ADDR1[\s\S]*?\}\)\(\);/, hardcoded);
 
     // 3. Fix DOMContentLoaded — just call updateUI directly (no URL params needed)
+    // Use ,()=>{ (minified, no spaces) to avoid matching the replacement string itself
     out = out.replace(
-      /document\.addEventListener\('DOMContentLoaded'[\s\S]*?\}\);/,
+      /document\.addEventListener\('DOMContentLoaded',\(\)=>\{[\s\S]*?\}\);/,
       "document.addEventListener('DOMContentLoaded', () => { updateUI(); });"
     );
 
