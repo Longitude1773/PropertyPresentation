@@ -1756,12 +1756,14 @@ let _GRW_C=${gc}, _GRW_B=${gb}, _GRW_O=${go};`;
       "document.addEventListener('DOMContentLoaded', () => { updateUI(); });"
     );
 
-    // 4. Remove configure tool section
+    // 4. Remove configure tool section + make mainPresentation visible
     const cfgStart  = out.indexOf('<div id="configureTool"');
     const mainStart = out.indexOf('<!-- ═══════════════════ MAIN PRESENTATION');
     if (cfgStart !== -1 && mainStart !== -1) {
       out = out.substring(0, cfgStart) + out.substring(mainStart);
     }
+    // The mainPresentation div starts hidden; reveal it in the standalone file
+    out = out.replace('id="mainPresentation" style="display: none;"', 'id="mainPresentation" style="display: block;"');
 
     // 5. Update page title
     out = out.replace(/<title>[^<]*<\/title>/, `<title>${addr1} · Longitude<\/title>`);
