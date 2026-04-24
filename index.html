@@ -1821,6 +1821,38 @@ let _GRW_C=${gc}, _GRW_B=${gb}, _GRW_O=${go};`;
 
 function toggleBox(el){ el.classList.toggle('open'); }
 
+// ── LIVE CAMERON CONTENT INJECTION (for shareable link) ──
+async function fetchAndInjectCameronLive(url) {
+  try {
+    let html = null;
+    try {
+      const r = await fetch(url, { mode: 'cors' });
+      if (r.ok) html = await r.text();
+    } catch (_) { /* try proxy */ }
+    if (!html) {
+      const r2 = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+      if (r2.ok) html = await r2.text();
+    }
+    if (!html) return;
+    const sections = parseCameronContent(html);
+    if (!sections) return;
+    const keys = ['story','income','features','protection','longitude','convergence'];
+    const boxes = document.querySelectorAll('.box-list .box-item');
+    keys.forEach((key, idx) => {
+      const s = sections[key];
+      const box = boxes[idx];
+      if (!s || !box) return;
+      const eyebrow = (s.eyebrow || '').replace(/^[ivx]+\s*[·\-]\s*/i, '').trim();
+      box.querySelector('.box-title').textContent = eyebrow;
+      box.querySelector('.box-preview').textContent = s.lede || '';
+      const inner = box.querySelector('.box-expanded-inner');
+      inner.innerHTML = '<div class="bx-title">' + (s.title || '') + '</div>' + (s.body || '').trim();
+    });
+  } catch(e) {
+    console.warn('Cameron live fetch error:', e);
+  }
+}
+
 // ── CONFIGURE FORM ──
 function generateLink(){
   const required = {addr1:'Street Address', price:'Purchase Price', rc:'Conservative Revenue', rb:'Balanced Revenue', ro:'Optimized Revenue'};
@@ -1829,7 +1861,7 @@ function generateLink(){
       alert('Please fill in: '+label); return;
     }
   }
-  const fields=['addr1','addr2','type','beds','baths','sqft','loc','img','price','rc','rb','ro','gc','gb','go','ac','ab','ao'];
+  const fields=['addr1','addr2','type','beds','baths','sqft','loc','img','cameron','price','rc','rb','ro','gc','gb','go','ac','ab','ao'];
   const base=window.location.origin+window.location.pathname;
   const params=new URLSearchParams();
   for(const f of fields){
@@ -1863,6 +1895,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     return;
   }
   updateUI();
+  // If Cameron's site URL is in params, fetch and inject content live
+  const cameronUrl = params.get('cameron');
+  if (cameronUrl) fetchAndInjectCameronLive(cameronUrl);
 });
 </script>
 </body>
