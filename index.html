@@ -50,10 +50,44 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
 .box-chevron { font-size: 20px; color: var(--ash); margin-top: 2px; transition: transform 0.25s; flex-shrink: 0; line-height: 1; }
 .box-item.open .box-chevron { transform: rotate(90deg); }
 .box-expanded { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
-.box-item.open .box-expanded { max-height: 800px; }
+.box-item.open .box-expanded { max-height: 5000px; }
 .box-expanded-inner { padding: 0 0 32px 50px; }
 .box-expanded-inner p { font-size: 13px; line-height: 1.85; color: var(--mid); margin-bottom: 18px; }
 .box-expanded-inner p:last-child { margin-bottom: 0; }
+
+/* ── RICH CONTENT (Cameron format) ── */
+.box-expanded-inner .bx-title { font-family: "Cormorant Garamond", serif; font-size: 26px; font-weight: 500; color: var(--pine); line-height: 1.18; margin-bottom: 28px; }
+.box-expanded-inner .bx-title em { font-style: italic; }
+.box-expanded-inner h3 { font-family: "Cormorant Garamond", serif; font-size: 20px; font-weight: 500; color: var(--pine); margin: 32px 0 12px; line-height: 1.2; }
+.box-expanded-inner h3:first-of-type { margin-top: 0; }
+.box-expanded-inner h4 { font-family: "Cormorant Garamond", serif; font-size: 17px; font-weight: 500; color: var(--mid); margin: 22px 0 8px; line-height: 1.25; }
+.box-expanded-inner h5 { font-size: 9px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.box-expanded-inner strong { color: var(--pine); font-weight: 600; }
+.box-expanded-inner .pull-quote { border-left: 3px solid var(--gold); padding: 14px 22px; margin: 28px 0; background: rgba(172,126,45,0.06); border-radius: 0 3px 3px 0; }
+.box-expanded-inner .pull-quote p { font-family: "Cormorant Garamond", serif; font-size: 18px; font-style: italic; color: var(--pine); line-height: 1.65; margin: 0; }
+.box-expanded-inner .stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 28px 0; }
+.box-expanded-inner .stat { text-align: center; padding: 18px 10px; background: white; border: 1px solid var(--border); border-radius: 3px; }
+.box-expanded-inner .stat .num { display: block; font-family: "Cormorant Garamond", serif; font-size: 32px; font-weight: 500; color: var(--pine); line-height: 1; margin-bottom: 6px; }
+.box-expanded-inner .stat .label { font-size: 9px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--mid); opacity: 0.7; line-height: 1.4; }
+.box-expanded-inner .feature-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin: 18px 0; }
+.box-expanded-inner .feature-card { border: 1px solid var(--border); border-radius: 3px; padding: 18px; background: white; }
+.box-expanded-inner .feature-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.box-expanded-inner .feature-head h4 { margin: 0; font-size: 14px; }
+.box-expanded-inner .timeline-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--gold); background: rgba(172,126,45,0.1); padding: 3px 7px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.box-expanded-inner .feature-card p.what { font-size: 12px; line-height: 1.75; color: var(--mid); margin-bottom: 10px; }
+.box-expanded-inner .impact { font-size: 12px; line-height: 1.7; color: var(--pine); background: rgba(19,34,33,0.05); padding: 9px 13px; border-radius: 3px; margin: 10px 0; }
+.box-expanded-inner .comparable { font-size: 12px; line-height: 1.7; color: var(--mid); border-top: 1px solid var(--border); padding-top: 9px; margin-top: 9px; }
+.box-expanded-inner .source { font-size: 10px; color: var(--ash); opacity: 0.55; margin-top: 6px; }
+.box-expanded-inner .services-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin: 18px 0; }
+.box-expanded-inner .service-card { border: 1px solid var(--border); border-radius: 3px; padding: 18px; background: white; }
+.box-expanded-inner .service-card h5 { font-size: 9px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.box-expanded-inner .service-card h4 { margin: 0 0 10px; font-size: 14px; }
+.box-expanded-inner .cta { display: none !important; }
+@media (max-width: 640px) {
+  .box-expanded-inner .stat-row { grid-template-columns: repeat(2,1fr); }
+  .box-expanded-inner .feature-grid,
+  .box-expanded-inner .services-grid { grid-template-columns: 1fr; }
+}
 
 /* ── REVENUE SECTION ── */
 .revenue-section { background: var(--charcoal); padding: 80px 48px; }
@@ -349,6 +383,18 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
         <div class="cfg-field"><label>Square Feet</label><input id="cfg_sqft" class="cfg-input" placeholder="e.g. 2827"></div>
         <div class="cfg-field cfg-full"><label>Location Highlight</label><input id="cfg_loc" class="cfg-input" placeholder="e.g. Steps from Frostwood Gondola"></div>
         <div class="cfg-field cfg-full"><label>Property Photo URL <span style="opacity:.5;font-weight:400">(optional — overrides default)</span></label><input id="cfg_img" class="cfg-input" placeholder="https://... or leave blank to use embedded photo"></div>
+      </div>
+    </div>
+
+    <div class="cfg-group">
+      <div class="cfg-group-label">Content Source</div>
+      <div class="cfg-grid">
+        <div class="cfg-field cfg-full">
+          <label>Cameron's Site URL <span style="opacity:.5;font-weight:400">(paste the URL of the matching property site)</span></label>
+          <input id="cfg_cameron" class="cfg-input" placeholder="e.g. https://cameronjbrockbank.github.io/viridian-12/">
+          <div style="font-size:11px;color:var(--ash);margin-top:6px;line-height:1.6;">The six content sections will be pulled directly from Cameron's site and embedded in the downloaded file.</div>
+        </div>
+      </div>
         <div class="cfg-field cfg-full"><label>Purchase Price ($) <span class="req">*</span></label><input id="cfg_price" class="cfg-input" placeholder="e.g. 3500000"></div>
       </div>
     </div>
@@ -380,7 +426,8 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
       </div>
     </div>
 
-    <button class="cfg-btn" onclick="generateLink()">Generate Presentation Link</button>
+    <button class="cfg-btn cfg-btn-primary" id="downloadBtn" onclick="downloadPresentation()">⬇ Download HTML File</button>
+    <button class="cfg-btn cfg-btn-secondary" onclick="generateLink()" style="margin-top:10px;">Generate Quick-Share Link</button>
 
     <div id="cfgLinkBox" style="display:none">
       <div class="cfg-link-label">Share this link with your prospect:</div>
@@ -1303,6 +1350,182 @@ function updateUI(){
   }
 
   initHorizonTool();
+}
+
+// ── CONTENT EXTRACTION FROM CAMERON'S SITE ──
+function parseCameronContent(rawHtml) {
+  const marker = 'const content = {';
+  const start = rawHtml.indexOf(marker);
+  if (start === -1) return null;
+  // Walk the string counting braces, respecting template literals and strings
+  let depth = 0, inBt = false, inStr = false, sc = '';
+  let i = start + marker.length - 1; // points at opening {
+  for (; i < rawHtml.length; i++) {
+    const ch = rawHtml[i], prev = rawHtml[i - 1];
+    if (inBt) { if (ch === '`') inBt = false; continue; }
+    if (inStr) { if (ch === sc && prev !== '\\') inStr = false; continue; }
+    if (ch === '`') { inBt = true; continue; }
+    if (ch === '"' || ch === "'") { inStr = true; sc = ch; continue; }
+    if (ch === '{') depth++;
+    if (ch === '}') { depth--; if (depth === 0) break; }
+  }
+  const objStr = rawHtml.substring(start + 'const content = '.length, i + 1);
+  try { return new Function('return ' + objStr)(); }
+  catch(e) { console.warn('Cameron parse error:', e); return null; }
+}
+
+function injectSixBoxes(pageHtml, sections) {
+  const keys   = ['story', 'income', 'features', 'protection', 'longitude', 'convergence'];
+  const nums   = ['i', 'ii', 'iii', 'iv', 'v', 'vi'];
+  let boxes = '';
+  keys.forEach((key, idx) => {
+    const s = sections[key];
+    if (!s) return;
+    const eyebrow = (s.eyebrow || '').replace(/^[ivx]+\s*[·\-]\s*/i, '').trim();
+    boxes += `
+        <div class="box-item" onclick="toggleBox(this)">
+          <div class="box-header">
+            <span class="box-numeral">${nums[idx]}</span>
+            <div class="box-title-wrap">
+              <div class="box-title">${eyebrow}</div>
+              <div class="box-preview">${s.lede || ''}</div>
+            </div>
+            <span class="box-chevron">›</span>
+          </div>
+          <div class="box-expanded">
+            <div class="box-expanded-inner">
+              <div class="bx-title">${s.title || ''}</div>
+              ${(s.body || '').trim()}
+            </div>
+          </div>
+        </div>\n`;
+  });
+
+  // Replace box-list … </section> with new content
+  const boxListStart = pageHtml.indexOf('<div class="box-list">');
+  const strRevenue   = pageHtml.indexOf('<!-- STR REVENUE', boxListStart);
+  if (boxListStart === -1 || strRevenue === -1) return pageHtml;
+
+  // Find the </section> that closes the six-section (last one before STR REVENUE)
+  const closeSix = pageHtml.lastIndexOf('</section>', strRevenue);
+  if (closeSix === -1) return pageHtml;
+
+  const before = pageHtml.substring(0, boxListStart);
+  const after  = pageHtml.substring(closeSix + '</section>'.length);
+
+  return before +
+    '<div class="box-list">\n' + boxes +
+    '      </div>\n    </div>\n  </section>' +
+    after;
+}
+
+// ── DOWNLOAD HTML PRESENTATION ──
+async function downloadPresentation() {
+  const btn = document.getElementById('downloadBtn');
+
+  // Validate required fields
+  const required = {addr1:'Street Address', price:'Purchase Price', rc:'Conservative Revenue', rb:'Balanced Revenue', ro:'Optimized Revenue'};
+  for (const [id, label] of Object.entries(required)) {
+    if (!document.getElementById('cfg_' + id).value.trim()) {
+      alert('Please fill in: ' + label); return;
+    }
+  }
+
+  btn.textContent = 'Generating…';
+  btn.disabled = true;
+
+  try {
+    const v   = id => document.getElementById('cfg_' + id).value.trim();
+    const num = (id, def) => parseFloat(v(id).replace(/[^0-9.]/g, '')) || def || 0;
+    const esc = s => s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+
+    const addr1  = v('addr1'),  addr2 = v('addr2'), type  = v('type');
+    const beds   = v('beds'),   baths = v('baths'),  sqft  = v('sqft');
+    const loc    = v('loc'),    img   = v('img');
+    const price  = num('price');
+    const rc     = num('rc'),   rb    = num('rb'),    ro    = num('ro');
+    const gc     = (parseFloat(v('gc')) || 3)  / 100;
+    const gb     = (parseFloat(v('gb')) || 5)  / 100;
+    const go     = (parseFloat(v('go')) || 10) / 100;
+    const ac     = (parseFloat(v('ac')) || 3)  / 100;
+    const ab     = (parseFloat(v('ab')) || 6)  / 100;
+    const ao     = (parseFloat(v('ao')) || 9)  / 100;
+
+    // 1. Capture current page HTML
+    let out = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+    // 2. Hard-code property variables (replace the parseParams block)
+    const hardcoded = `let _ADDR1='${esc(addr1)}', _ADDR2='${esc(addr2)}', _TYPE='${esc(type)}', _BEDS='${esc(beds)}', _BATHS='${esc(baths)}', _SQFT='${esc(sqft)}', _LOC='${esc(loc)}', _IMG='${esc(img)}';
+let _PRICE=${price}, _REV_C=${rc}, _REV_B=${rb}, _REV_O=${ro};
+let _APP_C=${ac}, _APP_B=${ab}, _APP_O=${ao};
+let _GRW_C=${gc}, _GRW_B=${gb}, _GRW_O=${go};`;
+    out = out.replace(/let _ADDR1[\s\S]*?\}\)\(\);/, hardcoded);
+
+    // 3. Fix DOMContentLoaded — just call updateUI directly (no URL params needed)
+    out = out.replace(
+      /document\.addEventListener\('DOMContentLoaded'[\s\S]*?\}\);/,
+      "document.addEventListener('DOMContentLoaded', () => { updateUI(); });"
+    );
+
+    // 4. Remove configure tool section
+    const cfgStart  = out.indexOf('<div id="configureTool"');
+    const mainStart = out.indexOf('<!-- ═══════════════════ MAIN PRESENTATION');
+    if (cfgStart !== -1 && mainStart !== -1) {
+      out = out.substring(0, cfgStart) + out.substring(mainStart);
+    }
+
+    // 5. Update page title
+    out = out.replace(/<title>[^<]*<\/title>/, `<title>${addr1} · Longitude<\/title>`);
+
+    // 6. Fetch Cameron content and inject six sections
+    const cameronUrl = v('cameron');
+    if (cameronUrl) {
+      try {
+        // Try direct fetch first (works for same-origin or CORS-permissive hosts)
+        let cHtml = null;
+        try {
+          const r = await fetch(cameronUrl, { mode: 'cors' });
+          if (r.ok) cHtml = await r.text();
+        } catch (_) { /* try proxy */ }
+
+        // Fallback: CORS proxy
+        if (!cHtml) {
+          const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(cameronUrl);
+          const r2 = await fetch(proxy);
+          if (r2.ok) cHtml = await r2.text();
+        }
+
+        if (cHtml) {
+          const sections = parseCameronContent(cHtml);
+          if (sections) out = injectSixBoxes(out, sections);
+          else alert('Content found but could not be parsed — six sections left as default.');
+        } else {
+          alert('Could not reach Cameron\'s site. Six sections left as default.');
+        }
+      } catch (e) {
+        console.warn('Cameron fetch error:', e);
+        alert('Could not load Cameron\'s site (' + e.message + '). Six sections left as default.');
+      }
+    }
+
+    // 7. Trigger download
+    const slug = addr1.replace(/[^a-z0-9]+/gi, '-').toLowerCase().replace(/^-|-$/g, '');
+    const blob = new Blob([out], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = slug + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 15000);
+
+  } catch (e) {
+    alert('Generation error: ' + e.message);
+    console.error(e);
+  }
+
+  btn.textContent = '⬇ Download HTML File';
+  btn.disabled = false;
 }
 
 function toggleBox(el){ el.classList.toggle('open'); }
