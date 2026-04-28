@@ -1707,7 +1707,8 @@ function parseCameronContent(rawHtml) {
 }
 
 function injectSixBoxes(pageHtml, sections) {
-  const keys   = ['story', 'income', 'features', 'protection', 'longitude', 'convergence'];
+  // Positional order — works regardless of what keys Cameron uses
+  const keys   = Object.keys(sections).slice(0, 6);
   const nums   = ['i', 'ii', 'iii', 'iv', 'v', 'vi'];
   let boxes = '';
   keys.forEach((key, idx) => {
@@ -1908,7 +1909,8 @@ async function fetchAndInjectCameronLive(url) {
     if (!html) return;
     const sections = parseCameronContent(html);
     if (!sections) return;
-    const keys = ['story','income','features','protection','longitude','convergence'];
+    // Use positional order — works regardless of what keys Cameron uses
+    const keys = Object.keys(sections).slice(0, 6);
     const boxes = document.querySelectorAll('.box-list .box-item');
     keys.forEach((key, idx) => {
       const s = sections[key];
