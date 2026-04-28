@@ -37,21 +37,45 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
 .six-section { background: var(--offwhite); padding: 80px 48px; }
 .six-inner { max-width: 860px; margin: 0 auto; }
 .section-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-.section-title { font-family: "Cormorant Garamond", serif; font-size: 38px; font-weight: 500; color: var(--pine); line-height: 1.15; margin-bottom: 48px; }
+.section-title { font-family: "Cormorant Garamond", serif; font-size: 38px; font-weight: 500; color: var(--pine); line-height: 1.15; margin-bottom: 16px; }
+.section-subtitle { font-size: 13px; line-height: 1.75; color: var(--mid); opacity: 0.75; margin-bottom: 48px; max-width: 560px; }
 .section-title-light { color: var(--cream); }
 
-.box-list { border-top: 1px solid var(--border); }
-.box-item { border-bottom: 1px solid var(--border); }
-.box-header { display: flex; align-items: flex-start; gap: 24px; padding: 28px 0; cursor: pointer; user-select: none; }
-.box-numeral { font-family: "Cormorant Garamond", serif; font-size: 20px; font-weight: 500; color: var(--gold); min-width: 26px; padding-top: 3px; flex-shrink: 0; }
-.box-title-wrap { flex: 1; }
-.box-title { font-family: "Cormorant Garamond", serif; font-size: 22px; font-weight: 500; color: var(--pine); margin-bottom: 8px; line-height: 1.2; }
-.box-preview { font-size: 13px; line-height: 1.75; color: var(--mid); }
-.box-chevron { font-size: 20px; color: var(--ash); margin-top: 2px; transition: transform 0.25s; flex-shrink: 0; line-height: 1; }
-.box-item.open .box-chevron { transform: rotate(90deg); }
-.box-expanded { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
-.box-item.open .box-expanded { max-height: 5000px; }
-.box-expanded-inner { padding: 0 0 32px 50px; }
+/* ── SIX CARDS ── */
+.box-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; border: none; }
+.box-item { background: white; border: 1px solid var(--border); border-radius: 3px; padding: 36px 30px 28px; cursor: pointer; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; position: relative; overflow: hidden; }
+.box-item::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); opacity: 0; transition: opacity 0.25s; }
+.box-item:hover { border-color: rgba(172,126,45,0.5); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(19,34,33,0.1); }
+.box-item:hover::before { opacity: 1; }
+.box-header { display: flex; flex-direction: column; gap: 0; padding: 0; cursor: pointer; user-select: none; }
+.box-numeral { font-family: "Cormorant Garamond", serif; font-size: 15px; font-weight: 500; color: var(--gold); font-style: italic; letter-spacing: 0.08em; margin-bottom: 14px; }
+.box-title-wrap { flex: 1; display: flex; flex-direction: column; }
+.box-title { font-family: "Cormorant Garamond", serif; font-size: 21px; font-weight: 500; color: var(--pine); line-height: 1.2; margin-bottom: 14px; }
+.box-preview { font-size: 12px; line-height: 1.75; color: var(--mid); flex: 1; }
+.box-chevron { display: none; }
+.box-arrow { margin-top: 24px; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+.box-arrow::after { content: "→"; font-size: 13px; transition: transform 0.2s; }
+.box-item:hover .box-arrow::after { transform: translateX(5px); }
+.box-expanded { display: none; }
+.box-expanded-inner { padding: 0; }
+
+/* ── SECTION MODAL ── */
+.pp-backdrop { position: fixed; inset: 0; z-index: 200; background: rgba(10,20,18,0.82); backdrop-filter: blur(14px); display: none; align-items: flex-start; justify-content: center; padding: 48px 24px 80px; overflow-y: auto; }
+.pp-backdrop.open { display: flex; }
+.pp-modal { width: 100%; max-width: 900px; background: var(--offwhite); border: 1px solid rgba(172,126,45,0.18); box-shadow: 0 48px 96px rgba(0,0,0,0.55); margin: auto; position: relative; border-radius: 2px; }
+.pp-modal-header { background: var(--pine); padding: 52px 64px 40px; position: relative; }
+.pp-modal-close { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(171,191,182,0.3); color: var(--ash); font-family: "Montserrat", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: all 0.18s; }
+.pp-modal-close:hover { background: var(--accent); border-color: var(--accent); color: var(--cream); }
+.pp-modal-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+.pp-modal-title { font-family: "Cormorant Garamond", serif; font-size: clamp(30px, 4vw, 46px); font-weight: 500; color: var(--cream); line-height: 1.12; margin-bottom: 20px; }
+.pp-modal-title em { font-style: italic; }
+.pp-modal-lede { font-family: "Cormorant Garamond", serif; font-size: 19px; font-style: italic; color: var(--ash); line-height: 1.6; max-width: 740px; opacity: 0.85; }
+.pp-modal-body { padding: 52px 64px 64px; }
+@media (max-width: 640px) {
+  .pp-modal-header { padding: 40px 28px 32px; }
+  .pp-modal-body { padding: 36px 28px 48px; }
+  .box-list { grid-template-columns: 1fr; }
+}
 .box-expanded-inner p { font-size: 13px; line-height: 1.85; color: var(--mid); margin-bottom: 18px; }
 .box-expanded-inner p:last-child { margin-bottom: 0; }
 
@@ -479,15 +503,17 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
   <section class="six-section">
     <div class="six-inner">
       <div class="section-eyebrow">The Full Picture</div>
-      <div class="section-title">Six reasons this property belongs in your portfolio.</div>
+      <div class="section-title">Six ways to get to know this home</div>
+      <p class="section-subtitle">Everything below opens a full page. Read what draws you in — skip what doesn't. Take your time.</p>
       <div class="box-list">
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">i</span>
             <div class="box-title-wrap">
               <div class="box-title">The Story &amp; Your Life Here</div>
               <div class="box-preview">Canyons Village has spent the last decade quietly becoming one of the most beautifully complete mountain villages in the country. You&#8217;re arriving at the exact moment the years of investment start to show &#8212; and you get to live inside it while it does.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -541,12 +567,13 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
           </div>
         </div>
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">ii</span>
             <div class="box-title-wrap">
               <div class="box-title">The Guests Who Love This Home</div>
               <div class="box-preview">Some rental homes have to be sold into every booking. Others have a quiet, loyal following &#8212; families who found the right home once and never went looking again. This is the second kind.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -588,12 +615,13 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
           </div>
         </div>
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">iii</span>
             <div class="box-title-wrap">
               <div class="box-title">How Incoming Amenities Grow Your Future Rental Potential</div>
               <div class="box-preview">Each of these is real, funded, and either under construction now or on a public schedule. They are the improvements that continue to lift the experience at your front door &#8212; and the rental calendar that comes with it.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -722,12 +750,13 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
           </div>
         </div>
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">iv</span>
             <div class="box-title-wrap">
               <div class="box-title">Why This Investment Is Built to Last</div>
               <div class="box-preview">What makes a resort-town home hold its value over time isn&#8217;t luck &#8212; it&#8217;s whether the home sits inside protections that can&#8217;t be copied. This one does.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -769,12 +798,13 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
           </div>
         </div>
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">v</span>
             <div class="box-title-wrap">
               <div class="box-title">The Longitude Difference</div>
               <div class="box-preview">Most short-term rental companies measure themselves by occupancy. We measure ourselves by something different &#8212; whether your home delivers the income you&#8217;re looking for, and whether it still feels like yours every time you walk through the door.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -824,12 +854,13 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
           </div>
         </div>
 
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">vi</span>
             <div class="box-title-wrap">
               <div class="box-title">The 2034 Olympics &amp; The Window Ahead</div>
               <div class="box-preview">Park City is entering one of the most exciting chapters in its history &#8212; the lead-up to the 2034 Winter Olympics on the mountain above Canyons Village. The buyers who get to enjoy it most are the ones who arrive early and settle in.</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">&#8250;</span>
           </div>
@@ -1306,6 +1337,19 @@ body { font-family: "Montserrat", sans-serif; background: var(--offwhite); color
     </div>
   </footer>
 
+<!-- SECTION MODAL -->
+<div id="ppBackdrop" class="pp-backdrop" onclick="closeSectionModal(event)">
+  <div class="pp-modal">
+    <div class="pp-modal-header">
+      <button class="pp-modal-close" onclick="closeSectionModal()">Close ✕</button>
+      <div class="pp-modal-eyebrow" id="ppEyebrow"></div>
+      <div class="pp-modal-title" id="ppTitle"></div>
+      <div class="pp-modal-lede" id="ppLede"></div>
+    </div>
+    <div class="pp-modal-body box-expanded-inner" id="ppBody"></div>
+  </div>
+</div>
+
 </div><!-- #mainPresentation -->
 
 <script>
@@ -1671,12 +1715,13 @@ function injectSixBoxes(pageHtml, sections) {
     if (!s) return;
     const eyebrow = (s.eyebrow || '').replace(/^[ivx]+\s*[·\-]\s*/i, '').trim();
     boxes += `
-        <div class="box-item" onclick="toggleBox(this)">
+        <div class="box-item" onclick="openSection(this)">
           <div class="box-header">
             <span class="box-numeral">${nums[idx]}</span>
             <div class="box-title-wrap">
               <div class="box-title">${eyebrow}</div>
               <div class="box-preview">${s.lede || ''}</div>
+              <span class="box-arrow">Read more</span>
             </div>
             <span class="box-chevron">›</span>
           </div>
@@ -1819,7 +1864,34 @@ let _GRW_C=${gc}, _GRW_B=${gb}, _GRW_O=${go};`;
   btn.disabled = false;
 }
 
-function toggleBox(el){ el.classList.toggle('open'); }
+function openSection(el) {
+  const numeral  = el.querySelector('.box-numeral').textContent;
+  const title    = el.querySelector('.box-title').textContent;
+  const lede     = el.querySelector('.box-preview').textContent;
+  const inner    = el.querySelector('.box-expanded-inner');
+
+  // Build body: clone inner content, strip bx-title (goes in header)
+  const clone = inner.cloneNode(true);
+  const bxTitleEl = clone.querySelector('.bx-title');
+  const bxTitleHTML = bxTitleEl ? bxTitleEl.innerHTML : title;
+  if (bxTitleEl) bxTitleEl.remove();
+
+  document.getElementById('ppEyebrow').textContent = numeral;
+  document.getElementById('ppTitle').innerHTML     = bxTitleHTML;
+  document.getElementById('ppLede').textContent    = lede;
+  document.getElementById('ppBody').innerHTML      = clone.innerHTML;
+
+  const bd = document.getElementById('ppBackdrop');
+  bd.classList.add('open');
+  bd.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeSectionModal(e) {
+  if (e && e.target !== document.getElementById('ppBackdrop') &&
+      !e.target.closest('.pp-modal-close')) return;
+  document.getElementById('ppBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ── LIVE CAMERON CONTENT INJECTION (for shareable link) ──
 async function fetchAndInjectCameronLive(url) {
