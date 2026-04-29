@@ -1585,13 +1585,14 @@ function updateTaxSummary(){
   document.getElementById('csSubConservative').textContent=fmtDollar(pp*0.20);
   document.getElementById('csSubBalanced').textContent=fmtDollar(pp*0.27);
   document.getElementById('csSubOptimized').textContent=fmtDollar(pp*0.35);
-  const allocated=[1,2,3,4,5].reduce((s,i)=>s+parseNum(document.getElementById('taxY'+i).value),0);
-  const remaining=totalDed-allocated;
+  const allocatedDed=[1,2,3,4,5].reduce((s,i)=>s+parseNum(document.getElementById('taxY'+i).value),0);
+  const allocatedSav=allocatedDed*bracket;
+  const remainingSav=totalSav-allocatedSav;
   const tracker=document.getElementById('taxTracker');
-  if(allocated===0){tracker.textContent='Enter deduction amounts above — total allocated cannot exceed '+fmtDollar(totalDed)+'.';tracker.className='tax-tracker';}
-  else if(allocated>totalDed){tracker.textContent='Over-allocated by '+fmtDollar(allocated-totalDed)+' — reduce year inputs.';tracker.className='tax-tracker over';}
-  else if(remaining===0){tracker.textContent='Fully allocated — '+fmtDollar(allocated)+' of '+fmtDollar(totalDed)+' scheduled.';tracker.className='tax-tracker done';}
-  else{tracker.textContent=fmtDollar(allocated)+' allocated · '+fmtDollar(remaining)+' remaining of '+fmtDollar(totalDed)+'.';tracker.className='tax-tracker';}
+  if(allocatedDed===0){tracker.textContent='Enter deduction amounts above — estimated tax savings available: '+fmtDollar(totalSav)+'.';tracker.className='tax-tracker';}
+  else if(allocatedSav>totalSav){tracker.textContent='Over-allocated by '+fmtDollar(allocatedSav-totalSav)+' in savings — reduce year inputs.';tracker.className='tax-tracker over';}
+  else if(remainingSav===0){tracker.textContent='Fully allocated — '+fmtDollar(allocatedSav)+' of '+fmtDollar(totalSav)+' in tax savings scheduled.';tracker.className='tax-tracker done';}
+  else{tracker.textContent=fmtDollar(allocatedSav)+' in tax savings allocated · '+fmtDollar(remainingSav)+' remaining of '+fmtDollar(totalSav)+'.';tracker.className='tax-tracker';}
 }
 function updateMonthlyPayment(){
   const pp=parseNum(document.getElementById('purchasePrice').value)||PROP.purchasePrice;
