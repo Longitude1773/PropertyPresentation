@@ -1488,7 +1488,7 @@ function calculate(){
     const totalCosts= annMortgage+maintenance+capex+hoa+propTax+insurance+mgmtCost;
     const netCF     = grossRev-totalCosts;
     const appGain   = pp*Math.pow(1+appRate,n)-pp*Math.pow(1+appRate,n-1);
-    const taxBen    = yearDeds[n-1]*bracket;
+    const taxBen    = yearDeds[n-1]; // inputs are savings amounts directly
     const adjBen    = netCF+appGain+taxBen;
     cumCashFlow+=netCF; cumAdjBen+=adjBen;
     const coc   =totalCashIn>0?netCF/totalCashIn:0;
@@ -1585,12 +1585,11 @@ function updateTaxSummary(){
   document.getElementById('csSubConservative').textContent=fmtDollar(pp*0.20);
   document.getElementById('csSubBalanced').textContent=fmtDollar(pp*0.27);
   document.getElementById('csSubOptimized').textContent=fmtDollar(pp*0.35);
-  const allocatedDed=[1,2,3,4,5].reduce((s,i)=>s+parseNum(document.getElementById('taxY'+i).value),0);
-  const allocatedSav=allocatedDed*bracket;
+  const allocatedSav=[1,2,3,4,5].reduce((s,i)=>s+parseNum(document.getElementById('taxY'+i).value),0);
   const remainingSav=totalSav-allocatedSav;
   const tracker=document.getElementById('taxTracker');
-  if(allocatedDed===0){tracker.textContent='Enter deduction amounts above — estimated tax savings available: '+fmtDollar(totalSav)+'.';tracker.className='tax-tracker';}
-  else if(allocatedSav>totalSav){tracker.textContent='Over-allocated by '+fmtDollar(allocatedSav-totalSav)+' in savings — reduce year inputs.';tracker.className='tax-tracker over';}
+  if(allocatedSav===0){tracker.textContent='Enter savings amounts above — estimated tax savings available: '+fmtDollar(totalSav)+'.';tracker.className='tax-tracker';}
+  else if(allocatedSav>totalSav){tracker.textContent='Over-allocated by '+fmtDollar(allocatedSav-totalSav)+' — reduce year inputs.';tracker.className='tax-tracker over';}
   else if(remainingSav===0){tracker.textContent='Fully allocated — '+fmtDollar(allocatedSav)+' of '+fmtDollar(totalSav)+' in tax savings scheduled.';tracker.className='tax-tracker done';}
   else{tracker.textContent=fmtDollar(allocatedSav)+' in tax savings allocated · '+fmtDollar(remainingSav)+' remaining of '+fmtDollar(totalSav)+'.';tracker.className='tax-tracker';}
 }
